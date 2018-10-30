@@ -91,4 +91,5 @@ rec {
   parity-ui = callPackage ./parity-ui { };
 
   particl-core = callPackage ./particl/particl-core.nix { miniupnpc = miniupnpc_2; };
+  particl-qt = libsForQt5.callPackage ./particl/particl-qt.nix { miniupnpc = miniupnpc_2; };
 }
