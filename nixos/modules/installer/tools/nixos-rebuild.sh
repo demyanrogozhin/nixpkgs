@@ -96,6 +96,7 @@ while [ "$#" -gt 0 ]; do
       --use-remote-sudo)
         # note the trailing space
         maybeSudo="sudo "
+        ;;
       --flake)
         flake="$1"
         shift 1
@@ -260,11 +261,6 @@ if [[ -n $flake ]]; then
     else
         flakeAttr="nixosConfigurations.\"$flakeAttr\""
     fi
-fi
-
-# Resolve the flake.
-if [[ -n $flake ]]; then
-    flake=$(nix flake info --json -- "$flake" | jq -r .uri)
 fi
 
 # Find configuration.nix and open editor instead of building.
