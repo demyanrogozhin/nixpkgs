@@ -117,6 +117,7 @@
 #, shine ? null # Fixed-point MP3 encoder
 , soxr ? null # Resampling via soxr
 , speex ? null # Speex de/encoder
+, svt-av1 ? null # Intels av1 encoder
 #, twolame ? null # MP2 encoder
 #, utvideo ? null # Ut Video de/encoder
 , vid-stab ? null # Video stabilization
@@ -246,7 +247,8 @@ stdenv.mkDerivation rec {
     sha256 = "176jn1lcdf0gk7sa5l2mv0faqp5dsqdhx1gqcrgymqhfmdal4xfb";
   };
 
-  patches = [ ./prefer-libdav1d-over-libaom.patch ];
+  patches = [ ./prefer-libdav1d-over-libaom.patch ] ++
+    optional (svt-av1 != null) ./svt-av1.patch;
 
   prePatch = ''
     patchShebangs .
@@ -391,6 +393,7 @@ stdenv.mkDerivation rec {
     (enableFeature (SDL2 != null) "sdl2")
     (enableFeature (soxr != null) "libsoxr")
     (enableFeature (speex != null) "libspeex")
+    (enableFeature (svt-av1 != null) "libsvtav1")
     #(enableFeature (twolame != null) "libtwolame")
     #(enableFeature (utvideo != null && gplLicensing) "libutvideo")
     (enableFeature (vid-stab != null && gplLicensing) "libvidstab") # Actual min. version 2.0
@@ -432,6 +435,7 @@ stdenv.mkDerivation rec {
     ++ optionals isLinux [ alsaLib libraw1394 libv4l ]
     ++ optional (isLinux && !isAarch64 && libmfx != null) libmfx
     ++ optional nvenc nv-codec-headers
+    ++ optional (svt-av1 != null) svt-av1
     ++ optionals stdenv.isDarwin [ Cocoa CoreServices CoreAudio AVFoundation
                                    MediaToolbox VideoDecodeAcceleration
                                    libiconv ];

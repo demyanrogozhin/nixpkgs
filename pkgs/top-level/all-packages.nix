@@ -6550,6 +6550,8 @@ in
 
   svgcleaner = callPackage ../tools/graphics/svgcleaner { };
 
+  svt-av1 = callPackage ../development/libraries/svt-av1 { };
+
   ssb-patchwork = callPackage ../applications/networking/ssb/patchwork { };
 
   ssdeep = callPackage ../tools/security/ssdeep { };
